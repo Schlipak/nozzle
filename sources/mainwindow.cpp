@@ -34,12 +34,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     delete anim;
     anim = new QPropertyAnimation(this, "geometry");
-    anim->setDuration(400);
+    anim->setDuration(settings.value("panel/animation-duration", 400).toInt());
     anim->setStartValue(QRect(getXOffset(), 100, 0, 0));
     anim->setEndValue(QRect(getXOffset(), -100, 0, 0));
     anim->setEasingCurve(QEasingCurve::OutBack);
     anim->start();
-    animTimer->start(500);
+    animTimer->start(settings.value("panel/animation-duration", 400).toInt() + 100);
 }
 
 double MainWindow::getXOffset()
@@ -57,7 +57,7 @@ void MainWindow::setupUi()
     ui->searchInput->setFocus();
 
     anim = new QPropertyAnimation(this, "geometry");
-    anim->setDuration(400);
+    anim->setDuration(settings.value("panel/animation-duration", 400).toInt());
     anim->setStartValue(QRect(getXOffset(), -100, 0, 0));
     anim->setEndValue(QRect(getXOffset(), 100, 0, 0));
     anim->setEasingCurve(QEasingCurve::OutBack);

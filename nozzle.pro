@@ -32,10 +32,14 @@ RCC_DIR     = build/rcc
 
 SOURCES += \
     sources/main.cpp \
-    sources/mainwindow.cpp
+    sources/mainwindow.cpp \
+    sources/backendscript.cpp \
+    sources/backendworker.cpp
 
 HEADERS += \
-    includes/mainwindow.hh
+    includes/mainwindow.hh \
+    includes/backendscript.hh \
+    includes/backendworker.hh
 
 FORMS += \
     forms/mainwindow.ui

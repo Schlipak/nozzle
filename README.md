@@ -1,4 +1,4 @@
-# Nozzle
+# :rocket: Nozzle
 
 Scriptable launcher for Linux
 

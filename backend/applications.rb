@@ -26,8 +26,8 @@ class ApplicationEntry
     @data[method_sym]
   end
 
-  def serialize
-    @data.to_json.gsub('\'', %q(\\\')).gsub('"', %q(\\"))
+  def data
+    @data
   end
 
   private
@@ -97,8 +97,14 @@ class Backend
   end
 
   def serialize(filtered)
-    filtered = filtered.map &:serialize
-    "[#{filtered.join(',')}]"
+    filtered = filtered.map &:data
+    
+    {
+      :backend => 'application',
+      :version => '1.0.0',
+      :priority => 2,
+      :results => filtered
+    }.to_json.gsub('\'', %q(\\\')).gsub('"', %q(\\"))
   end
 end
 

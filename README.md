@@ -8,6 +8,7 @@ Scriptable launcher for Linux
 
 ```sh
 sudo apt install qt4-qmake libqt4-dev
+git clone https://github.com/Schlipak/nozzle.git && cd nozzle/
 qmake nozzle.pro && make
 ./nozzle
 ```

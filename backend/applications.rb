@@ -66,7 +66,6 @@ class Backend
     while input = gets&.chomp
       if input.length >= 3
         regex = fuzzy_find(input&.downcase)
-        STDERR.puts regex
         filtered = apps.select do |app|
           app.name&.downcase =~ regex
         end.sort_by &:name

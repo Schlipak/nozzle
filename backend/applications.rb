@@ -65,8 +65,10 @@ class Backend
     STDERR.print '> '
     while input = gets&.chomp
       if input.length >= 3
+        regex = fuzzy_find(input&.downcase)
+        STDERR.puts regex
         filtered = apps.select do |app|
-          app.name&.downcase =~ fuzzy_find(input&.downcase)
+          app.name&.downcase =~ regex
         end.sort_by &:name
         puts serialize(filtered)
       end
@@ -78,8 +80,8 @@ class Backend
 
   def fuzzy_find(search)
     start = search[0..-2]
-    end_char = search[-1]
-    reg = start.split('').map { |s| "(#{s}.*?)" }.join('')
+    end_char = Regexp.escape search[-1]
+    reg = start.split('').map { |s| "(#{Regexp.escape s}.*?)" }.join('')
     return Regexp.new "(.*)#{reg}(#{end_char})"
   end
 

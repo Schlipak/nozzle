@@ -4,7 +4,7 @@
 void BackendWorker::run()
 {
     proc = new QProcess(NULL);
-    std::cout << "STARTING " << program.toStdString() << std::endl;
+    qDebug() << "STARTING " << program;
     proc->start(program, params);
 }
 
@@ -16,7 +16,7 @@ void BackendWorker::setParams(const QString &program, const QStringList &params)
 
 void BackendWorker::newDataInput(const QString &input)
 {
-    std::cout << "NEW DATA INPUT: " << input.toStdString() << std::endl;
+    qDebug() << "NEW DATA INPUT: " << input;
     if (proc && proc->waitForStarted()) {
         proc->write((input + QString("\n")).toStdString().c_str());
         QString line = proc->readLine();

@@ -7,7 +7,7 @@
 #include <QThread>
 #include <QMutex>
 
-#include <iostream>
+#include <QDebug>
 
 #include "backendworker.hh"
 

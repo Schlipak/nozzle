@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QProcess>
 
-#include <iostream>
+#include <QDebug>
 
 class BackendWorker : public QThread
 {

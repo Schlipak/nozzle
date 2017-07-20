@@ -13,7 +13,7 @@
 #include <QStringList>
 #include <QSettings>
 
-#include <iostream>
+#include <QDebug>
 
 #include "backendscript.hh"
 

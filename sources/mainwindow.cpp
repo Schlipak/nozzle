@@ -76,6 +76,6 @@ void MainWindow::animateOut()
 
 void MainWindow::on_searchInput_textChanged(const QString &string)
 {
-    std::cout << "TEXT CHANGED: " << string.toStdString() << std::endl;
+    qDebug() << "TEXT CHANGED: " << string;
     backend->updateSearchQuery(string);
 }

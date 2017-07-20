@@ -20,12 +20,12 @@ void BackendScript::start()
 
 void BackendScript::updateSearchQuery(const QString &query)
 {
-    std::cout << "UPDATED SEARCH QUERY: " << query.toStdString() << std::endl;
+    qDebug() << "UPDATED SEARCH QUERY: " << query;
     emit newDataAvailable(query);
 }
 
 void BackendScript::handleResults(const QString &results)
 {
-    std::cout << results.toStdString() << std::endl;
+    qDebug() << results;
 }
 

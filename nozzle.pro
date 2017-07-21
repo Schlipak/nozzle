@@ -34,15 +34,18 @@ SOURCES += \
     sources/main.cpp \
     sources/mainwindow.cpp \
     sources/backendscript.cpp \
-    sources/backendworker.cpp
+    sources/backendworker.cpp \
+    sources/entry.cpp
 
 HEADERS += \
     includes/mainwindow.hh \
     includes/backendscript.hh \
-    includes/backendworker.hh
+    includes/backendworker.hh \
+    includes/entry.hh
 
 FORMS += \
-    forms/mainwindow.ui
+    forms/mainwindow.ui \
+    forms/entry.ui
 
 INCLUDEPATH += \
     includes/

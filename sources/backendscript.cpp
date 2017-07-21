@@ -1,9 +1,10 @@
 #include "backendscript.hh"
 
-BackendScript::BackendScript(QObject *parent, QSettings const &settings) :
-    QObject(parent),
-    settings(settings)
+BackendScript::BackendScript(QObject *parent) :
+    QObject(parent)
 {
+    QSettings settings;
+
     program = settings.value("backend/exec", "python").toString();
     params << settings.value("backend/params", "backend.py").toString();
 }

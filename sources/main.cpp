@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     QApplication    app(argc, argv);
     QSettings       settings;
-    MainWindow      win(NULL, app, settings);
+    MainWindow      win(NULL, app);
 
     win.show();
     return app.exec();

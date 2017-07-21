@@ -13,9 +13,11 @@
 #include <QStringList>
 #include <QSettings>
 
+#include <QLabel>
 #include <QDebug>
 
 #include "backendscript.hh"
+#include "entry.hh"
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +28,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent, QApplication const &app, QSettings const &settings);
+    explicit MainWindow(QWidget *parent, QApplication const &app);
     ~MainWindow();
 
 protected:
@@ -35,7 +37,6 @@ protected:
 private:
     Ui::MainWindow      *ui;
     QApplication const  &app;
-    QSettings const     &settings;
 
     QGraphicsDropShadowEffect   *shadow;
     QPropertyAnimation          *anim;
@@ -43,6 +44,7 @@ private:
     BackendScript               *backend;
 
     bool                        closed;
+    unsigned int                count;
 
     double                      getXOffset();
     void                        setupUi();
@@ -50,6 +52,7 @@ private:
 private slots:
     void                        animateOut();
     void on_searchInput_textChanged(const QString &string);
+    void on_searchInput_returnPressed();
 };
 
 #endif // MAINWINDOW_HH

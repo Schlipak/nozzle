@@ -36,52 +36,73 @@
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>15</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>15</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="icon">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>32</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="name">
-     <property name="font">
-      <font>
-       <family>Fira Code</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
+    <widget class="QWidget" name="wrapper" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>15</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>15</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="icon">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="name">
+        <property name="font">
+         <font>
+          <family>Fira Code</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
 	color: #dddddd;
 }</string>
-     </property>
-     <property name="text">
-      <string>{{entryName}}</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>{{entryName}}</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

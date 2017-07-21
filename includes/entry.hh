@@ -2,6 +2,8 @@
 #define ENTRY_HH
 
 #include <QWidget>
+#include <QGraphicsOpacityEffect>
+#include <QSettings>
 
 namespace Ui {
 class Entry;
@@ -16,9 +18,10 @@ public:
     ~Entry();
 
 private:
-    Ui::Entry       *ui;
+    Ui::Entry               *ui;
+    QString const           &name;
 
-    QString const   &name;
+    QGraphicsOpacityEffect  *opacity;
 };
 
 #endif // ENTRY_HH

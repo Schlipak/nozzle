@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
 
     setupUi();
     backend = new BackendScript(NULL);
+    connect(backend, SIGNAL(newResultsAvailable(QString)), this, SLOT(onNewBackendResults(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -58,7 +59,7 @@ void MainWindow::setupUi()
     setMaximumWidth(app.desktop()->availableGeometry().width() - 20);
     ui->wrapper->setStyleSheet(
         QString(
-            "QWidget {"
+            "QWidget#wrapper {"
                 "border-radius: %1;"
                 "background: %2;"
             "}"
@@ -69,11 +70,23 @@ void MainWindow::setupUi()
     );
     ui->searchInput->setStyleSheet(
         QString(
-            "QLineEdit {"
+            "QLineEdit#searchInput {"
+                "background: transparent;"
+                "border: none;"
                 "color: %1;"
             "}"
         ).arg(
             settings.value("style/text-color", "rgb(243, 243, 243)").toString()
+        )
+    );
+    ui->entryList->setStyleSheet(
+        QString(
+            "QWidget#entryList {"
+                "background: transparent;"
+                "border-radius: %1;"
+            "}"
+        ).arg(
+            settings.value("style/border-radius", "3px").toString()
         )
     );
 
@@ -93,6 +106,39 @@ void MainWindow::setupUi()
     animTimer = new QTimer(this);
     animTimer->setSingleShot(true);
     connect(animTimer, SIGNAL(timeout()), SLOT(animateOut()));
+
+    ui->entryList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+void MainWindow::onNewBackendResults(const QString &results)
+{
+    QJsonParseError         err;
+    QJsonDocument           json = QJsonDocument::fromJson(results.simplified().toUtf8(), &err);
+    QJsonObject             root = json.object();
+    QJsonArray              entries = root["results"].toArray();
+
+    ui->entryList->clear();
+    foreach (const QJsonValue &value, entries)
+    {
+        QJsonObject entryData = value.toObject();
+        Entry *entry = new Entry(
+            this,
+            entryData["name"].toString(),
+            entryData["description"].toString(),
+            entryData["icon"].toString(),
+            entryData["exec"].toString()
+        );
+        QListWidgetItem *item = new QListWidgetItem();
+
+        ui->entryList->addItem(item);
+        item->setSizeHint(QSize(0, 50));
+        ui->entryList->setItemWidget(item, entry);
+    }
+
+    QSize s;
+    s.setWidth(width());
+    s.setHeight(70 + 50 * entries.size());
+    resize(s);
 }
 
 void MainWindow::animateOut()
@@ -103,18 +149,5 @@ void MainWindow::animateOut()
 
 void MainWindow::on_searchInput_textChanged(const QString &string)
 {
-    qDebug() << "TEXT CHANGED: " << string;
     backend->updateSearchQuery(string);
-}
-
-void MainWindow::on_searchInput_returnPressed()
-{
-    Entry *entry = new Entry(this, QString("Entry %1").arg(count));
-    ui->entryList->layout()->addWidget(entry);
-    count++;
-
-    QSize s;
-    s.setWidth(width());
-    s.setHeight(70 + 50 * count);
-    resize(s);
 }

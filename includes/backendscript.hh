@@ -16,18 +16,22 @@ class BackendScript : public QObject
     Q_OBJECT
 public:
     explicit        BackendScript(QObject *parent = 0);
+    ~BackendScript();
 
     void            start();
     void            updateSearchQuery(QString const &query);
 
 signals:
     void            newDataAvailable(QString const &);
+    void            newResultsAvailable(QString const &);
 
 public slots:
     void            handleResults(QString const &);
 
 private:
     BackendWorker   *worker;
+    QThread         workerThread;
+
     QString         program;
     QStringList     params;
 };

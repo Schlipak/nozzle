@@ -64,13 +64,16 @@ class Backend
     apps = find_apps
     STDERR.print '> '
     while input = gets&.chomp
-      if input.length >= 3
+      filtered = if input.length >= 3
         regex = fuzzy_find(input&.downcase)
-        filtered = apps.select do |app|
+        apps.select do |app|
           app.name&.downcase =~ regex
         end.sort_by &:name
-        puts serialize(filtered)
+      else
+        []
       end
+      puts serialize(filtered)
+      STDOUT.flush
       STDERR.print '> '
     end
   end
@@ -98,13 +101,13 @@ class Backend
 
   def serialize(filtered)
     filtered = filtered.map &:data
-    
+
     {
       :backend => 'application',
       :version => '1.0.0',
       :priority => 2,
       :results => filtered
-    }.to_json.gsub('\'', %q(\\\')).gsub('"', %q(\\"))
+    }.to_json
   end
 end
 

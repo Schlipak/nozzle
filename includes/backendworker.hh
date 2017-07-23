@@ -9,20 +9,22 @@
 
 #include <QDebug>
 
-class BackendWorker : public QThread
+class BackendWorker : public QObject
 {
     Q_OBJECT
 public:
-    void            setParams(QString const &program, QStringList const &params);
+    BackendWorker(const QString &program, const QStringList &params);
 
 signals:
     void            resultReady(const QString &);
 
 public slots:
     void            newDataInput(const QString &);
+    void            newDataOutput();
 
 private:
     QProcess        *proc;
+    QThread         thread;
 
     QString         program;
     QStringList     params;

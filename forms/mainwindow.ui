@@ -115,6 +115,12 @@
        </property>
        <item>
         <widget class="QWidget" name="searchInputWrapper" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -168,6 +174,8 @@
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
+	background: transparent;
+	border: none;
 	color: rgb(243, 243, 243);
 }</string>
             </property>
@@ -180,30 +188,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" name="entryList" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QListWidget" name="entryList">
+         <property name="styleSheet">
+          <string notr="true">QListWidget#entryList {
+	border-radius: 10px;
+	background-color: transparent;
+}
+</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>10</number>
-          </property>
-         </layout>
         </widget>
        </item>
       </layout>

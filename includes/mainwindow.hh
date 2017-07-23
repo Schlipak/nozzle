@@ -12,6 +12,13 @@
 #include <QProcess>
 #include <QStringList>
 #include <QSettings>
+#include <QListWidget>
+#include <QListWidgetItem>
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 
 #include <QLabel>
 #include <QDebug>
@@ -49,10 +56,12 @@ private:
     double                      getXOffset();
     void                        setupUi();
 
+public slots:
+    void                        onNewBackendResults(QString const &results);
+
 private slots:
     void                        animateOut();
-    void on_searchInput_textChanged(const QString &string);
-    void on_searchInput_returnPressed();
+    void                        on_searchInput_textChanged(const QString &string);
 };
 
 #endif // MAINWINDOW_HH

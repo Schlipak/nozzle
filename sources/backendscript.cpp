@@ -7,26 +7,33 @@ BackendScript::BackendScript(QObject *parent) :
 
     program = settings.value("backend/exec", "python").toString();
     params << settings.value("backend/params", "backend.py").toString();
+    start();
+}
+
+BackendScript::~BackendScript()
+{
+    workerThread.quit();
+    workerThread.wait();
 }
 
 void BackendScript::start()
 {
-    worker = new BackendWorker();
-    worker->setParams(program, params);
-    connect(worker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
-    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    worker = new BackendWorker(program, params);
+//    worker->moveToThread(&workerThread);
+//    connect(&workerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(this, SIGNAL(newDataAvailable(QString)), worker, SLOT(newDataInput(QString)));
-    worker->start();
+    connect(worker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
+    workerThread.start();
 }
 
 void BackendScript::updateSearchQuery(const QString &query)
 {
-    qDebug() << "UPDATED SEARCH QUERY: " << query;
+    qDebug() << "Updated search query -> " << query;
     emit newDataAvailable(query);
 }
 
 void BackendScript::handleResults(const QString &results)
 {
-    qDebug() << results;
+    emit newResultsAvailable(results);
 }
 

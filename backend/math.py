@@ -10,6 +10,13 @@ from py_expression_eval import Parser
 import sys
 import os
 
+def serialize(result):
+    template = "{\"backend\":\"math\",\"version\":\"1.0.0\",\"results\":[]}"
+    if result == None:
+        return template
+    template = "{\"backend\":\"math\",\"version\":\"1.0.0\",\"results\":[{\"name\":\"= %g\",\"icon\":\"accessories-calculator\"}]}"
+    return (template % result)
+
 def main():
     parser = Parser()
     while True:
@@ -20,8 +27,10 @@ def main():
         input = input.rstrip(os.linesep)
         try:
             result = parser.parse(input).evaluate({})
-            print("[{{\\\"name\\\":\\\"= %g\\\",\\\"icon\\\":\\\"accessories-calculator\\\"}}]" % result)
+            print(serialize(result))
+            sys.stdout.flush()
         except:
-            print('Not a valid math expression, ignoring', file=sys.stderr)
+            print(serialize(None))
+            sys.stdout.flush()
 
 if __name__ == "__main__": main()

@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QGraphicsOpacityEffect>
 #include <QSettings>
+#include <QIcon>
+#include <QPixmap>
+#include <QSize>
 
 namespace Ui {
 class Entry;
@@ -14,14 +17,30 @@ class Entry : public QWidget
     Q_OBJECT
 
 public:
-    explicit Entry(QWidget *parent, QString const &name);
+    explicit Entry(
+        QWidget *parent,
+        QString const &name,
+        QString const &description = "",
+        QString const &iconPath = "",
+        QString const &exec = ""
+    );
     ~Entry();
+
+    void                    setDescription(QString const &description);
+    void                    setIconPath(QString const &path);
+    void                    setExec(QString const &exec);
 
 private:
     Ui::Entry               *ui;
     QString const           &name;
 
-    QGraphicsOpacityEffect  *opacity;
+    QString                 description;
+    QString                 iconPath;
+    QString                 exec;
+
+    QGraphicsOpacityEffect  *generalOpacity;
+    QGraphicsOpacityEffect  *descriptionOpacity;
+    bool                    selected;
 };
 
 #endif // ENTRY_HH

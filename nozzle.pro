@@ -33,17 +33,17 @@ RCC_DIR     = build/rcc
 SOURCES += \
     sources/main.cpp \
     sources/mainwindow.cpp \
-    sources/backendscript.cpp \
     sources/backendworker.cpp \
     sources/entry.cpp \
-    sources/elidedlabel.cpp
+    sources/elidedlabel.cpp \
+    sources/backend.cpp
 
 HEADERS += \
     includes/mainwindow.hh \
-    includes/backendscript.hh \
     includes/backendworker.hh \
     includes/entry.hh \
-    includes/elidedlabel.hh
+    includes/elidedlabel.hh \
+    includes/backend.hh
 
 FORMS += \
     forms/mainwindow.ui \

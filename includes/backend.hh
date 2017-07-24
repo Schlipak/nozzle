@@ -1,5 +1,5 @@
-#ifndef BACKENDSCRIPT_HH
-#define BACKENDSCRIPT_HH
+#ifndef BACKEND_HH
+#define BACKEND_HH
 
 #include <QObject>
 #include <QSettings>
@@ -11,12 +11,12 @@
 
 #include "backendworker.hh"
 
-class BackendScript : public QObject
+class Backend : public QObject
 {
     Q_OBJECT
 public:
-    explicit        BackendScript(QObject *parent = 0);
-    ~BackendScript();
+    explicit        Backend(QObject *parent = 0);
+    ~Backend();
 
     void            start();
     void            updateSearchQuery(QString const &query);
@@ -36,4 +36,4 @@ private:
     QStringList     params;
 };
 
-#endif // BACKENDSCRIPT_HH
+#endif // BACKEND_HH

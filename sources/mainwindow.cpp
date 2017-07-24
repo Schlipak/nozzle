@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     setFocusPolicy(Qt::StrongFocus);
 
     setupUi();
-    backend = new BackendScript(NULL);
+    backend = new Backend(NULL);
     connect(backend, SIGNAL(newResultsAvailable(QString)), this, SLOT(onNewBackendResults(QString)));
 }
 
@@ -124,7 +124,7 @@ void MainWindow::onNewBackendResults(const QString &results)
         Entry *entry = new Entry(
             this,
             entryData["name"].toString(),
-            entryData["description"].toString(),
+            " " + entryData["description"].toString(),
             entryData["icon"].toString(),
             entryData["exec"].toString()
         );

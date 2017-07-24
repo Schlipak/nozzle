@@ -1,6 +1,6 @@
-#include "backendscript.hh"
+#include "backend.hh"
 
-BackendScript::BackendScript(QObject *parent) :
+Backend::Backend(QObject *parent) :
     QObject(parent)
 {
     QSettings settings;
@@ -10,13 +10,13 @@ BackendScript::BackendScript(QObject *parent) :
     start();
 }
 
-BackendScript::~BackendScript()
+Backend::~Backend()
 {
     workerThread.quit();
     workerThread.wait();
 }
 
-void BackendScript::start()
+void Backend::start()
 {
     worker = new BackendWorker(program, params);
 //    worker->moveToThread(&workerThread);
@@ -26,13 +26,13 @@ void BackendScript::start()
     workerThread.start();
 }
 
-void BackendScript::updateSearchQuery(const QString &query)
+void Backend::updateSearchQuery(const QString &query)
 {
     qDebug() << "Updated search query -> " << query;
     emit newDataAvailable(query);
 }
 
-void BackendScript::handleResults(const QString &results)
+void Backend::handleResults(const QString &results)
 {
     emit newResultsAvailable(results);
 }

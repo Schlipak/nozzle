@@ -23,7 +23,7 @@
 #include <QLabel>
 #include <QDebug>
 
-#include "backendscript.hh"
+#include "backend.hh"
 #include "entry.hh"
 
 namespace Ui {
@@ -48,7 +48,7 @@ private:
     QGraphicsDropShadowEffect   *shadow;
     QPropertyAnimation          *anim;
     QTimer                      *animTimer;
-    BackendScript               *backend;
+    Backend               *backend;
 
     bool                        closed;
     unsigned int                count;

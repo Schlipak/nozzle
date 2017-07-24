@@ -27,7 +27,9 @@ class ApplicationEntry
   end
 
   def data
-    @data
+    clone = @data.clone
+    clone[:description] = clone.delete(:comment)
+    clone
   end
 
   private

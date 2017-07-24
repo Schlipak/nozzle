@@ -7,6 +7,11 @@
 #include <QIcon>
 #include <QPixmap>
 #include <QSize>
+#include <QFontMetrics>
+
+#include <QDebug>
+
+#include "elidedlabel.hh"
 
 namespace Ui {
 class Entry;
@@ -38,8 +43,6 @@ private:
     QString                 iconPath;
     QString                 exec;
 
-    QGraphicsOpacityEffect  *generalOpacity;
-    QGraphicsOpacityEffect  *descriptionOpacity;
     bool                    selected;
 };
 

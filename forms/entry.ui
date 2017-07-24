@@ -129,12 +129,34 @@ QWidget:selected {
          <string>{{entryName}}</string>
         </property>
         <property name="textFormat">
-         <enum>Qt::PlainText</enum>
+         <enum>Qt::AutoText</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="description">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>5</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="ElidedLabel" name="description" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <family>Fira Code</family>
@@ -146,14 +168,14 @@ QWidget:selected {
 	color: #fff;
 }</string>
         </property>
-        <property name="text">
+        <property name="text" stdset="0">
          <string>{{entryDescription}}</string>
         </property>
-        <property name="textFormat">
-         <enum>Qt::PlainText</enum>
+        <property name="margin" stdset="0">
+         <number>0</number>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="indent" stdset="0">
+         <number>5</number>
         </property>
        </widget>
       </item>
@@ -162,6 +184,13 @@ QWidget:selected {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ElidedLabel</class>
+   <extends>QWidget</extends>
+   <header>elidedlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

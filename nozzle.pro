@@ -35,13 +35,15 @@ SOURCES += \
     sources/mainwindow.cpp \
     sources/backendscript.cpp \
     sources/backendworker.cpp \
-    sources/entry.cpp
+    sources/entry.cpp \
+    sources/elidedlabel.cpp
 
 HEADERS += \
     includes/mainwindow.hh \
     includes/backendscript.hh \
     includes/backendworker.hh \
-    includes/entry.hh
+    includes/entry.hh \
+    includes/elidedlabel.hh
 
 FORMS += \
     forms/mainwindow.ui \

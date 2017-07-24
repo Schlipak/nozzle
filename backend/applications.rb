@@ -26,13 +26,35 @@ class ApplicationEntry
     @data[method_sym]
   end
 
+  def match_data=(md)
+    @match_data = md
+  end
+
   def data
     clone = @data.clone
     clone[:description] = clone.delete(:comment)
+    clone[:name] = highlight_fuzzy clone[:name]
     clone
   end
 
   private
+
+  def highlight_fuzzy(name)
+    matches = @match_data.to_a
+    matches.shift
+    highlight = ""
+    offset = 0
+    matches.each_with_index do |match, nth|
+      chunk = name[offset...(offset + match.length)]
+      highlight += if match == matches[0]
+                     chunk
+                   else
+                     "<u>#{chunk[0]}</u>#{chunk[1..-1]}"
+                   end
+      offset += match.length
+    end
+    highlight + name[offset..-1]
+  end
 
   def parse_entry(entry)
     entry_data = {}
@@ -69,7 +91,8 @@ class Backend
       filtered = if input.length >= 3
         regex = fuzzy_find(input&.downcase)
         apps.select do |app|
-          app.name&.downcase =~ regex
+          md = regex.match app.name&.downcase
+          app.match_data = md
         end.sort_by &:name
       else
         []

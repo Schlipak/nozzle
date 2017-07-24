@@ -7,9 +7,9 @@ Scriptable launcher for Linux
 ## Build
 
 ```sh
-sudo apt install qt5-qmake libqt4-dev
+sudo apt install qt5-qmake qt5-default
 git clone https://github.com/Schlipak/nozzle.git && cd nozzle/
-qmake nozzle.pro && make
+qmake && make
 ./nozzle
 ```
 

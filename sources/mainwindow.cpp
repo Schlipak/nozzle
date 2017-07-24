@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     count(0)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Popup);
+    setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setFocusPolicy(Qt::StrongFocus);
 

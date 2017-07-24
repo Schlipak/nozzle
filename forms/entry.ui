@@ -188,7 +188,7 @@ QWidget:selected {
   <customwidget>
    <class>ElidedLabel</class>
    <extends>QWidget</extends>
-   <header>elidedlabel.h</header>
+   <header>elidedlabel.hh</header>
   </customwidget>
  </customwidgets>
  <resources/>

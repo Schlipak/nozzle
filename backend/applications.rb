@@ -56,6 +56,10 @@ class ApplicationEntry
     highlight + name[offset..-1]
   end
 
+  def locale
+    @locale ||= ENV['LANGUAGE']
+  end
+
   def parse_entry(entry)
     entry_data = {}
     section = ''
@@ -67,8 +71,14 @@ class ApplicationEntry
       next unless /^.*=.*$/ =~ line.chomp
       prop, value = line.chomp.split('=', 2)
       next if /^X-[^-]+/ =~ prop
-      next if /^.*\[.+\]$/ =~ prop
-      entry_data[prop.underscore.to_sym] = cast_value(value)
+      if /^(.+)\[(.+)\]$/ =~ prop
+        i18n_prop = "#{$1.underscore}_i18n".to_sym
+        if locale =~ %r{^#{$2}(?:_.+)?$}
+          entry_data[i18n_prop] = cast_value(value)
+        end
+      else
+        entry_data[prop.underscore.to_sym] = cast_value(value)
+      end
     end
     entry_data
   end

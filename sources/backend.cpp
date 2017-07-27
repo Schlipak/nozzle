@@ -28,7 +28,7 @@ void Backend::start()
 
 void Backend::updateSearchQuery(const QString &query)
 {
-    qDebug() << "Updated search query -> " << query;
+    qDebug() << "[BackendController] Updated search query -> " << query;
     emit newDataAvailable(query);
 }
 

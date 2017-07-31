@@ -36,14 +36,16 @@ SOURCES += \
     sources/backendworker.cpp \
     sources/entry.cpp \
     sources/elidedlabel.cpp \
-    sources/backend.cpp
+    sources/backend.cpp \
+    sources/entrylistitem.cpp
 
 HEADERS += \
     includes/mainwindow.hh \
     includes/backendworker.hh \
     includes/entry.hh \
     includes/elidedlabel.hh \
-    includes/backend.hh
+    includes/backend.hh \
+    includes/entrylistitem.hh
 
 FORMS += \
     forms/mainwindow.ui \

@@ -25,6 +25,7 @@
 
 #include "backend.hh"
 #include "entry.hh"
+#include "entrylistitem.hh"
 
 namespace Ui {
 class MainWindow;
@@ -45,14 +46,14 @@ private:
     Ui::MainWindow      *ui;
     QApplication const  &app;
 
-    QGraphicsDropShadowEffect   *shadow;
-    QPropertyAnimation          *animIntro;
-    QPropertyAnimation          *animSize;
-    QTimer                      *animIntroTimer;
-    Backend                     *backend;
+    QGraphicsDropShadowEffect   *mShadow;
+    QPropertyAnimation          *mAnimIntro;
+    QPropertyAnimation          *mAnimSize;
+    QTimer                      *mAnimIntroTimer;
+    Backend                     *mBackend;
 
-    bool                        closed;
-    unsigned int                count;
+    bool                        mClosed;
+    unsigned int                mCount;
 
     double                      getXOffset();
     void                        setupUi();

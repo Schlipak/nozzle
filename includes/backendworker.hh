@@ -13,7 +13,7 @@ class BackendWorker : public QObject
 {
     Q_OBJECT
 public:
-    BackendWorker(const QString &program, const QStringList &params);
+    BackendWorker(const QString &mProgram, const QStringList &mParams);
 
 signals:
     void            resultReady(const QString &);
@@ -23,11 +23,11 @@ public slots:
     void            newDataOutput();
 
 private:
-    QProcess        *proc;
-    QThread         thread;
+    QProcess        *mProc;
+    QThread         mThread;
 
-    QString         program;
-    QStringList     params;
+    QString         mProgram;
+    QStringList     mParams;
 
     void run();
 };

@@ -29,11 +29,11 @@ public slots:
     void            handleResults(QString const &);
 
 private:
-    BackendWorker   *worker;
-    QThread         workerThread;
+    BackendWorker   *mWorker;
+    QThread         mWorkerThread;
 
-    QString         program;
-    QStringList     params;
+    QString         mProgram;
+    QStringList     mParams;
 };
 
 #endif // BACKEND_HH

@@ -4,10 +4,10 @@
 Entry::Entry(QWidget *parent, const QString &name, const QString &description, const QString &iconPath, const QString &exec) :
     QWidget(parent),
     ui(new Ui::Entry),
-    name(name),
-    description(description),
-    iconPath(iconPath),
-    exec(exec)
+    mName(name),
+    mDescription(description),
+    mIconPath(iconPath),
+    mExec(exec)
 {
     QSettings settings;
 
@@ -42,13 +42,13 @@ Entry::~Entry()
 
 void Entry::setDescription(const QString &description)
 {
-    this->description = description;
+    mDescription = description;
     ui->description->setText(description);
 }
 
 void Entry::setIconPath(const QString &path)
 {
-    this->iconPath = path;
+    mIconPath = path;
 
     QIcon icon = QIcon::fromTheme(path);
     QPixmap pixmap = icon.pixmap(icon.actualSize(QSize(64, 64)));
@@ -57,11 +57,16 @@ void Entry::setIconPath(const QString &path)
 
 void Entry::setExec(const QString &exec)
 {
-    this->exec = exec;
+    mExec = exec;
 }
 
 const QString &Entry::getExec() const
 {
-    return exec;
+    return mExec;
+}
+
+void Entry::applyBorderRadius()
+{
+    setAccessibleName("last-item");
 }
 

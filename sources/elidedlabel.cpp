@@ -3,14 +3,14 @@
 
 ElidedLabel::ElidedLabel(QWidget *parent, Qt::WindowFlags f) :
     QLabel(parent, f),
-    originalText("")
+    mOriginalText("")
 {
     setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 }
 
 ElidedLabel::ElidedLabel(const QString &text, QWidget *parent, Qt::WindowFlags f) :
     QLabel(text, parent, f),
-    originalText(text)
+    mOriginalText(text)
 {
     setAlignment(Qt::AlignRight);
 }
@@ -18,7 +18,7 @@ ElidedLabel::ElidedLabel(const QString &text, QWidget *parent, Qt::WindowFlags f
 void ElidedLabel::setText(const QString &string)
 {
     QLabel::setText(string);
-    originalText = string;
+    mOriginalText = string;
 }
 
 void ElidedLabel::resizeEvent(QResizeEvent *event)
@@ -26,6 +26,6 @@ void ElidedLabel::resizeEvent(QResizeEvent *event)
     QLabel::resizeEvent(event);
 
     QFontMetrics metrics(font());
-    QString elidedText = metrics.elidedText(originalText, Qt::ElideRight, width());
+    QString elidedText = metrics.elidedText(mOriginalText, Qt::ElideRight, width());
     QLabel::setText(elidedText);
 }

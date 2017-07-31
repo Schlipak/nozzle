@@ -21,7 +21,7 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
 
 private:
-    QString originalText;
+    QString mOriginalText;
 };
 
 #endif // ELIDEDLABEL_HH

@@ -35,16 +35,17 @@ public:
     void                    setIconPath(QString const &path);
     void                    setExec(QString const &exec);
     QString const           &getExec() const;
+    void                    applyBorderRadius();
 
 private:
     Ui::Entry               *ui;
-    QString const           &name;
+    QString const           &mName;
 
-    QString                 description;
-    QString                 iconPath;
-    QString                 exec;
+    QString                 mDescription;
+    QString                 mIconPath;
+    QString                 mExec;
 
-    bool                    selected;
+    bool                    mSelected;
 };
 
 #endif // ENTRY_HH

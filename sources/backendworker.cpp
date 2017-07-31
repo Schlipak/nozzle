@@ -3,30 +3,30 @@
 
 BackendWorker::BackendWorker(const QString &program, const QStringList &params)
 {
-    this->program = program;
-    this->params = params;
+    this->mProgram = program;
+    this->mParams = params;
 
     qDebug() << "[WORKER] Starting" << program << params;
-    proc = new QProcess(NULL);
-    connect(proc, SIGNAL(readyReadStandardOutput()), this, SLOT(newDataOutput()));
-    proc->start(program, params);
+    mProc = new QProcess(NULL);
+    connect(mProc, SIGNAL(readyReadStandardOutput()), this, SLOT(newDataOutput()));
+    mProc->start(program, params);
 }
 
 void BackendWorker::newDataInput(const QString &input)
 {
-    if (proc && proc->isOpen())
+    if (mProc && mProc->isOpen())
     {
         qDebug() << "[Worker] Passing data to backend -> " << input;
-        proc->write((input + QString("\n")).toStdString().c_str());
+        mProc->write((input + QString("\n")).toStdString().c_str());
     }
 }
 
 void BackendWorker::newDataOutput()
 {
-    if (proc && proc->isOpen())
+    if (mProc && mProc->isOpen())
     {
         qDebug() << "[Worker] Backend has emitted data";
-        QString line = proc->readLine();
+        QString line = mProc->readLine();
         emit resultReady(line);
     }
 }

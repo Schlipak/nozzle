@@ -188,15 +188,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="entryList">
-         <property name="styleSheet">
-          <string notr="true">QListWidget#entryList {
-	border-radius: 10px;
-	background-color: transparent;
-}
-</string>
-         </property>
-        </widget>
+        <widget class="QListWidget" name="entryList"/>
        </item>
       </layout>
      </widget>

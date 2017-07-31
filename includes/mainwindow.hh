@@ -57,6 +57,7 @@ private:
 
     double                      getXOffset();
     void                        setupUi();
+    bool                        eventFilter(QObject *target, QEvent *event);
 
 public slots:
     void                        onNewBackendResults(QString const &results);

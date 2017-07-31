@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     mBackend = new Backend(NULL);
     connect(mBackend, SIGNAL(newResultsAvailable(QString)), this, SLOT(onNewBackendResults(QString)));
     connect(ui->entryList, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(onEntrySelected(QListWidgetItem*)));
+    ui->searchInput->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -147,7 +148,7 @@ void MainWindow::onNewBackendResults(const QString &results)
         Entry *errorReport = new Entry(
             this,
             "Backend error",
-            err.errorString(),
+            QString("JSON parse error: `%1'").arg(err.errorString()),
             "error",
             "notify-send -t 5000 \"Nozzle\" \"Backend error\" -i \"error"
         );
@@ -188,6 +189,26 @@ void MainWindow::onNewBackendResults(const QString &results)
     mAnimSize->setStartValue(size());
     mAnimSize->setEndValue(finalSize);
     mAnimSize->start();
+}
+
+bool MainWindow::eventFilter(QObject *target, QEvent *event)
+{
+    if (target == ui->searchInput)
+    {
+        if (event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_Down)
+            {
+                if (ui->entryList->item(0))
+                {
+                    ui->entryList->item(0)->setSelected(true);
+                    ui->entryList->setFocus();
+                }
+            }
+        }
+    }
+    return QMainWindow::eventFilter(target, event);
 }
 
 void MainWindow::onEntrySelected(QListWidgetItem *item)

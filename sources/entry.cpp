@@ -60,3 +60,8 @@ void Entry::setExec(const QString &exec)
     this->exec = exec;
 }
 
+const QString &Entry::getExec() const
+{
+    return exec;
+}
+

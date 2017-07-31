@@ -33,11 +33,18 @@ class ApplicationEntry
   def data
     clone = @data.clone
     clone[:description] = clone.delete(:comment)
+    clone[:description] = clone.delete(:comment_i18n) if clone[:comment_i18n]
+    clone[:description] = "<i>#{clone[:description]}</i>"
     clone[:name] = highlight_fuzzy clone[:name]
+    clone[:exec] = clean_exec clone[:exec]
     clone
   end
 
   private
+
+  def clean_exec(exec)
+    exec.gsub /%[fFuUdDnNkv]/, ''
+  end
 
   def highlight_fuzzy(name)
     matches = @match_data.to_a
@@ -94,11 +101,13 @@ class ApplicationEntry
 end
 
 class Backend
+  MINIMUM_INPUT_LENGTH = 3
+
   def start
     apps = find_apps
     STDERR.print '> '
     while input = gets&.chomp
-      filtered = if input.length >= 3
+      filtered = if input.length >= MINIMUM_INPUT_LENGTH
         regex = fuzzy_find(input&.downcase)
         apps.select do |app|
           md = regex.match app.name&.downcase

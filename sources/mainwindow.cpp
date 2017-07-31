@@ -16,13 +16,16 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     setupUi();
     backend = new Backend(NULL);
     connect(backend, SIGNAL(newResultsAvailable(QString)), this, SLOT(onNewBackendResults(QString)));
+    connect(ui->entryList, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(onEntrySelected(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete shadow;
-    delete anim;
+    delete animIntro;
+    delete animSize;
+    delete animIntroTimer;
     delete backend;
 }
 
@@ -35,14 +38,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     QSettings settings;
 
-    delete anim;
-    anim = new QPropertyAnimation(this, "geometry");
-    anim->setDuration(settings.value("style/animation-duration", 400).toInt());
-    anim->setStartValue(QRect(getXOffset(), 100, settings.value("style/width", 800).toInt(), 0));
-    anim->setEndValue(QRect(getXOffset(), -100, settings.value("style/width", 800).toInt(), 0));
-    anim->setEasingCurve(QEasingCurve::OutBack);
-    anim->start();
-    animTimer->start(settings.value("style/animation-duration", 400).toInt() + 100);
+    delete animIntro;
+    animIntro = new QPropertyAnimation(this, "geometry");
+    animIntro->setDuration(settings.value("style/animation-duration", 400).toInt());
+    animIntro->setStartValue(QRect(getXOffset(), 100, settings.value("style/width", 800).toInt(), 0));
+    animIntro->setEndValue(QRect(getXOffset(), -100, settings.value("style/width", 800).toInt(), 0));
+    animIntro->setEasingCurve(QEasingCurve::OutBack);
+    animIntro->start();
+    animIntroTimer->start(settings.value("style/animation-duration", 400).toInt() + 100);
 }
 
 double MainWindow::getXOffset()
@@ -96,16 +99,20 @@ void MainWindow::setupUi()
     ui->centralWidget->setGraphicsEffect(shadow);
     ui->searchInput->setFocus();
 
-    anim = new QPropertyAnimation(this, "geometry");
-    anim->setDuration(settings.value("style/animation-duration", 400).toInt());
-    anim->setStartValue(QRect(getXOffset(), -100, settings.value("style/width", 800).toInt(), 0));
-    anim->setEndValue(QRect(getXOffset(), 100, settings.value("style/width", 800).toInt(), 0));
-    anim->setEasingCurve(QEasingCurve::OutBack);
-    anim->start();
+    animIntro = new QPropertyAnimation(this, "geometry");
+    animIntro->setDuration(settings.value("style/animation-duration", 400).toInt());
+    animIntro->setStartValue(QRect(getXOffset(), -100, settings.value("style/width", 800).toInt(), 0));
+    animIntro->setEndValue(QRect(getXOffset(), 100, settings.value("style/width", 800).toInt(), 0));
+    animIntro->setEasingCurve(QEasingCurve::OutBack);
+    animIntro->start();
 
-    animTimer = new QTimer(this);
-    animTimer->setSingleShot(true);
-    connect(animTimer, SIGNAL(timeout()), SLOT(animateOut()));
+    animSize = new QPropertyAnimation(this, "size");
+    animSize->setDuration(200);
+    animSize->setEasingCurve(QEasingCurve::InOutQuad);
+
+    animIntroTimer = new QTimer(this);
+    animIntroTimer->setSingleShot(true);
+    connect(animIntroTimer, SIGNAL(timeout()), SLOT(animateOut()));
 
     ui->entryList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
@@ -138,7 +145,20 @@ void MainWindow::onNewBackendResults(const QString &results)
     QSize s;
     s.setWidth(width());
     s.setHeight(70 + 50 * entries.size());
-    resize(s);
+
+    animSize->setStartValue(size());
+    animSize->setEndValue(s);
+    animSize->start();
+}
+
+void MainWindow::onEntrySelected(QListWidgetItem *item)
+{
+    Entry       *entry = static_cast<Entry*>(ui->entryList->itemWidget(item));
+    QProcess    proc;
+
+    qDebug() << "Entry selected" << entry->getExec();
+    proc.startDetached(entry->getExec());
+    close();
 }
 
 void MainWindow::animateOut()

@@ -34,6 +34,7 @@ public:
     void                    setDescription(QString const &description);
     void                    setIconPath(QString const &path);
     void                    setExec(QString const &exec);
+    QString const           &getExec() const;
 
 private:
     Ui::Entry               *ui;

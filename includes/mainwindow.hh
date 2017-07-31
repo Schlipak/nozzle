@@ -46,9 +46,10 @@ private:
     QApplication const  &app;
 
     QGraphicsDropShadowEffect   *shadow;
-    QPropertyAnimation          *anim;
-    QTimer                      *animTimer;
-    Backend               *backend;
+    QPropertyAnimation          *animIntro;
+    QPropertyAnimation          *animSize;
+    QTimer                      *animIntroTimer;
+    Backend                     *backend;
 
     bool                        closed;
     unsigned int                count;
@@ -58,6 +59,7 @@ private:
 
 public slots:
     void                        onNewBackendResults(QString const &results);
+    void                        onEntrySelected(QListWidgetItem *item);
 
 private slots:
     void                        animateOut();

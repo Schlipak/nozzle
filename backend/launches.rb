@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
+#
+# Lists upcoming rocket launches and their status when typing `launches`
+# Select an entry to open livestream or information websites
+# Data provided by the amazing LaunchLibrary
+#
 
 require 'json'
 require 'open-uri'
@@ -42,6 +47,20 @@ class Launches
     File.join(File.expand_path(File.dirname(__FILE__)), "icons/#{icon}")
   end
 
+  def get_url(entry)
+    if entry['vidURL']
+      "xdg-open #{entry['vidURL']}"
+    elsif entry['vidURLs']&.size > 0
+      "xdg-open #{entry['vidURLs'][0]}"
+    elsif entry['infoURL']
+      "xdg-open #{entry['infoURL']}"
+    elsif entry['infoURLs']&.size
+      "xdg-open #{entry['infoURLs'][0]}"
+    else
+      ''
+    end
+  end
+
   def get_launch_data
     launches = []
     open ENDPOINT do |fd|
@@ -50,7 +69,8 @@ class Launches
         launches << {
           :name => entry['name'],
           :description => entry['net'],
-          :icon => get_image_for_status(entry)
+          :icon => get_image_for_status(entry),
+          :exec => get_url(entry)
         }
       end
     end

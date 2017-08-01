@@ -21,9 +21,14 @@ Nozzle will read configuration from a file. As of today this file is not created
 Only a few options are available yet, but more will follow, including extensive styling capabilities.
 
 ```ini
-[backend]
-exec=python                     ; Program to be run, you may need to specify the full absolute path
-params=/home/myself/myscript.py ; Backend script to run
+[backends]                                 ; Nozzle uses an extension of the INI format for arrays
+script\1\exec=ruby                         ; The backend program to be run
+script\1\params=/path/to/some-script.rb    ; Script to be run or params to send to the program
+script\1\name="SomeScript"                 ; Used for identification in case of backend error
+script\2\exec=python                       ; Another backend...
+script\2\params=/path/to/another-script.py
+script\2\name="Another Script"
+script\size=2                              ; Size is needed internally, don't forget to update it!
 
 [env]                           ; Environment variables to pass to backend scripts
 GEM_HOME="/path/to/gems_home"   ; Gem HOME and PATH can be required if using RVM

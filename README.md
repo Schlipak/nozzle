@@ -25,6 +25,10 @@ Only a few options are available yet, but more will follow, including extensive 
 exec=python                     ; Program to be run, you may need to specify the full absolute path
 params=/home/myself/myscript.py ; Backend script to run
 
+[env]                           ; Environment variables to pass to backend scripts
+GEM_HOME="/path/to/gems_home"   ; Gem HOME and PATH can be required if using RVM
+GEM_PATH="/path/to/gems/2.3.0"  ; Variables that already exist are REPLACED in the environment
+
 [style]
 background-color="#F2F2F8"                 ; Background color of the panel
 selection-background-color="#B3E5FC"       ; Background color of the selected entry

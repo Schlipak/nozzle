@@ -22,16 +22,18 @@ Only a few options are available yet, but more will follow, including extensive 
 
 ```ini
 [backend]
-exec=python                     ; Program to be run
+exec=python                     ; Program to be run, you may need to specify the full absolute path
 params=/home/myself/myscript.py ; Backend script to run
 
 [style]
 background-color="#F2F2F8"                 ; Background color of the panel
+selection-background-color="#B3E5FC"       ; Background color of the selected entry
 text-color="#212121"                       ; Main text color
 text-secondary-color="rgba(33,33,33,0.75)" ; Secondary text color (used for description)
 width=900                                  ; Width of the panel
-animation-speed=350                        ; Speed of the panel animation (ms)
 border-radius=5px                          ; Panel border radius
+blur-radius=15                             ; Radius of the panel blur
+animation-duration=350                     ; Duration of the panel animation (ms)
 ```
 
 ## Backend scripts

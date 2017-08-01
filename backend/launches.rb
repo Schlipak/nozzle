@@ -13,7 +13,8 @@ ENDPOINT = 'https://launchlibrary.net/1.2/launch/next/10'
 class Launches
   def run
     STDERR.print '> '
-    while input = gets&.chomp
+    while input = gets
+      input = input.chomp if input
       results = if input == 'launches'
         get_launch_data
       else
@@ -50,11 +51,11 @@ class Launches
   def get_url(entry)
     if entry['vidURL']
       "xdg-open #{entry['vidURL']}"
-    elsif entry['vidURLs']&.size > 0
+    elsif entry['vidURLs'] && entry['vidURLs'].size > 0
       "xdg-open #{entry['vidURLs'][0]}"
     elsif entry['infoURL']
       "xdg-open #{entry['infoURL']}"
-    elsif entry['infoURLs']&.size
+    elsif entry['infoURLs'] && entry['infoURLs'].size
       "xdg-open #{entry['infoURLs'][0]}"
     else
       ''

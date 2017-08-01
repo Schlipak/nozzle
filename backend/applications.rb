@@ -106,11 +106,14 @@ class Backend
   def start
     apps = find_apps
     STDERR.print '> '
-    while input = gets&.chomp
+    while input = gets
+      input = input.chomp.downcase if input
       filtered = if input.length >= MINIMUM_INPUT_LENGTH
-        regex = fuzzy_find(input&.downcase)
+        regex = fuzzy_find input
         apps.select do |app|
-          md = regex.match app.name&.downcase
+          app_name = app.name
+          app_name = app_name.downcase if app_name
+          md = regex.match app_name
           app.match_data = md
         end.sort_by &:name
       else

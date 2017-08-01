@@ -188,7 +188,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="entryList"/>
+        <widget class="QListWidget" name="entryList">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

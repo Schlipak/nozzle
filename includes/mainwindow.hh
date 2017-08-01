@@ -58,10 +58,13 @@ private:
     double                      getXOffset();
     void                        setupUi();
     bool                        eventFilter(QObject *target, QEvent *event);
+    void                        selectIndex(int offset);
 
 public slots:
     void                        onNewBackendResults(QString const &results);
     void                        onEntrySelected(QListWidgetItem *item);
+    void                        onEnterPressedInInput();
+    void                        onInputFocusOut();
 
 private slots:
     void                        animateOut();

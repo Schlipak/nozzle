@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     connect(mBackend, SIGNAL(newResultsAvailable(QString)), this, SLOT(onNewBackendResults(QString)));
     connect(ui->entryList, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(onEntrySelected(QListWidgetItem*)));
     ui->searchInput->installEventFilter(this);
+    connect(ui->searchInput, SIGNAL(returnPressed()), this, SLOT(onEnterPressedInInput()));
 }
 
 MainWindow::~MainWindow()
@@ -186,6 +187,12 @@ void MainWindow::onNewBackendResults(const QString &results)
 
     if (lastItem) lastItem->applyBorderRadius();
 
+    if (ui->entryList->count() > 0)
+    {
+        QListWidgetItem *item = ui->entryList->itemAt(0, 0);
+        if (item) item->setSelected(true);
+    }
+
     mAnimSize->setStartValue(size());
     mAnimSize->setEndValue(finalSize);
     mAnimSize->start();
@@ -200,15 +207,40 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if (keyEvent->key() == Qt::Key_Down)
             {
-                if (ui->entryList->item(0))
-                {
-                    ui->entryList->item(0)->setSelected(true);
-                    ui->entryList->setFocus();
-                }
+                selectIndex(1);
             }
+            else if (keyEvent->key() == Qt::Key_Up)
+            {
+                selectIndex(-1);
+            }
+        }
+        else if (event->type() == QEvent::FocusOut)
+        {
+            QTimer::singleShot(0, ui->searchInput, SLOT(setFocus()));
+            return false;
         }
     }
     return QMainWindow::eventFilter(target, event);
+}
+
+void MainWindow::selectIndex(int offset)
+{
+    QModelIndexList modelIndexList = ui->entryList->selectionModel()->selectedIndexes();
+    int             index = 0;
+
+    if (offset == -1)
+    {
+        index = ui->entryList->count() - 1;
+    }
+    if (!modelIndexList.empty())
+    {
+        index = modelIndexList[0].row() + offset;
+    }
+
+    if (ui->entryList->item(index))
+    {
+        ui->entryList->item(index)->setSelected(true);
+    }
 }
 
 void MainWindow::onEntrySelected(QListWidgetItem *item)
@@ -219,6 +251,22 @@ void MainWindow::onEntrySelected(QListWidgetItem *item)
     qDebug() << "Entry selected" << entry->getExec();
     proc.startDetached(entry->getExec());
     close();
+}
+
+void MainWindow::onEnterPressedInInput()
+{
+    QList<QListWidgetItem *> list = ui->entryList->selectedItems();
+
+    if (!list.empty())
+    {
+        QListWidgetItem *item = list[0];
+        onEntrySelected(item);
+    }
+}
+
+void MainWindow::onInputFocusOut()
+{
+
 }
 
 void MainWindow::animateOut()

@@ -1,7 +1,8 @@
 #include "backend.hh"
 
 Backend::Backend(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    mWorker(Q_NULLPTR)
 {
     QSettings settings;
 
@@ -14,13 +15,14 @@ Backend::~Backend()
 {
     mWorkerThread.quit();
     mWorkerThread.wait();
+    delete mWorker;
 }
 
 void Backend::start()
 {
     mWorker = new BackendWorker(mProgram, mParams);
-//    worker->moveToThread(&workerThread);
-//    connect(&workerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
+//    mWorker->moveToThread(&mWorkerThread);
+//    connect(&mWorkerThread, SIGNAL(finished()), mWorker, SLOT(deleteLater()));
     connect(this, SIGNAL(newDataAvailable(QString)), mWorker, SLOT(newDataInput(QString)));
     connect(mWorker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
     mWorkerThread.start();

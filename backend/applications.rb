@@ -6,6 +6,7 @@
 #
 
 require 'json'
+require 'fuzzystringmatch'
 
 class String
   def underscore
@@ -22,12 +23,24 @@ class ApplicationEntry
     @data = parse_entry entry
   end
 
+  attr_accessor :distance
+
   def method_missing(method_sym)
     @data[method_sym]
   end
 
   def match_data=(md)
     @match_data = md
+  end
+
+  def compute_distance(jarow, input)
+    @distance = 0.0
+
+    name = @data[:name] if @data
+    return unless name && input
+    input = input.downcase
+
+    @distance = jarow.getDistance input, name
   end
 
   def data
@@ -103,6 +116,10 @@ end
 class Backend
   MINIMUM_INPUT_LENGTH = 3
 
+  def initialize
+    @jarow = FuzzyStringMatch::JaroWinkler.create :pure
+  end
+
   def start
     apps = find_apps
     STDERR.print '> '
@@ -114,8 +131,9 @@ class Backend
           app_name = app.name
           app_name = app_name.downcase if app_name
           md = regex.match app_name
+          app.compute_distance @jarow, input if md
           app.match_data = md
-        end.sort_by &:name
+        end.sort_by(&:distance).reverse
       else
         []
       end

@@ -7,12 +7,12 @@
 
 class EntryListItem : public QWidget, public QListWidgetItem
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit    EntryListItem();
+  explicit    EntryListItem();
 
-    void        applyBorderRadius();
+  void        applyBorderRadius();
 };
 
 #endif // ENTRYLISTITEM_HH

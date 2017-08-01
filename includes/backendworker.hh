@@ -12,27 +12,27 @@
 
 class BackendWorker : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    BackendWorker(const QString &mProgram, const QStringList &mParams);
-    ~BackendWorker();
+  BackendWorker(const QString &mProgram, const QStringList &mParams);
+  ~BackendWorker();
 
 signals:
-    void            resultReady(const QString &);
+  void            resultReady(const QString &);
 
 public slots:
-    void            newDataInput(const QString &);
-    void            newDataOutput();
-    void            onStateChanged(QProcess::ProcessState newState);
+  void            newDataInput(const QString &);
+  void            newDataOutput();
+  void            onStateChanged(QProcess::ProcessState newState);
 
 private:
-    QProcess        *mProc;
-    QThread         mThread;
+  QProcess        *mProc;
+  QThread         mThread;
 
-    QString         mProgram;
-    QStringList     mParams;
+  QString         mProgram;
+  QStringList     mParams;
 
-    void run();
+  void run();
 };
 
 #endif // BACKENDWORKER_HH

@@ -4,19 +4,19 @@
 #include <QWidget>
 
 namespace Ui {
-class Panel;
+  class Panel;
 }
 
 class Panel : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit Panel(QWidget *parent = 0);
-    ~Panel();
+  explicit Panel(QWidget *parent = 0);
+  ~Panel();
 
 private:
-    Ui::Panel *ui;
+  Ui::Panel *ui;
 };
 
 #endif // PANEL_HH

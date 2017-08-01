@@ -12,16 +12,16 @@
 class ElidedLabel : public QLabel
 {
 public:
-    ElidedLabel(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
-    ElidedLabel(const QString &text, QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+  ElidedLabel(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+  ElidedLabel(const QString &text, QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
 
-    void setText(const QString &string);
+  void setText(const QString &string);
 
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
+  virtual void resizeEvent(QResizeEvent *event);
 
 private:
-    QString mOriginalText;
+  QString mOriginalText;
 };
 
 #endif // ELIDEDLABEL_HH

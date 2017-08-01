@@ -4,5 +4,5 @@ EntryListItem::EntryListItem() {}
 
 void EntryListItem::applyBorderRadius()
 {
-    setData(Qt::UserRole, "last");
+  setData(Qt::UserRole, "last");
 }

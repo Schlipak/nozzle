@@ -2,10 +2,10 @@
 #define BACKEND_HH
 
 #include <QObject>
-#include <QSettings>
 #include <QProcess>
 #include <QThread>
 #include <QMutex>
+#include <QUuid>
 
 #include <QDebug>
 
@@ -13,27 +13,32 @@
 
 class Backend : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit        Backend(QObject *parent = 0);
-    ~Backend();
+  explicit        Backend(QString const &exec, QString const params);
+  ~Backend();
 
-    void            start();
-    void            updateSearchQuery(QString const &query);
+  void            start();
+  void            updateSearchQuery(QString const &query);
+  QUuid const     &uid() const;
+  void            setName(QString const &name);
+  QString const   &name() const;
 
 signals:
-    void            newDataAvailable(QString const &);
-    void            newResultsAvailable(QString const &);
+  void            newDataAvailable(QString const &);
+  void            newResultsAvailable(Backend const &, QString const &);
 
 public slots:
-    void            handleResults(QString const &);
+  void            handleResults(QString const &);
 
 private:
-    BackendWorker   *mWorker;
-    QThread         mWorkerThread;
+  QUuid           mUid;
+  BackendWorker   *mWorker;
+  QThread         mWorkerThread;
 
-    QString         mProgram;
-    QStringList     mParams;
+  QString         mProgram;
+  QStringList     mParams;
+  QString         mName;
 };
 
 #endif // BACKEND_HH

@@ -53,3 +53,6 @@ FORMS += \
 
 INCLUDEPATH += \
     includes/
+
+RESOURCES += \
+    resources/builtin-icons.qrc

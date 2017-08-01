@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QProcess>
 #include <QSettings>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -14,7 +15,7 @@ class BackendWorker : public QObject
 {
   Q_OBJECT
 public:
-  BackendWorker(const QString &mProgram, const QStringList &mParams);
+  BackendWorker(const QString &mProgram, const QStringList &mParams, const QString &name);
   ~BackendWorker();
 
 signals:
@@ -29,10 +30,14 @@ private:
   QProcess        *mProc;
   QThread         mThread;
 
-  QString         mProgram;
-  QStringList     mParams;
+  QString const     &mProgram;
+  QStringList const &mParams;
+  QString const     &mName;
 
   void run();
+
+private slots:
+  void          emitBackendCrash();
 };
 
 #endif // BACKENDWORKER_HH

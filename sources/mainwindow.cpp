@@ -170,9 +170,9 @@ void MainWindow::onNewBackendResults(Backend const &backend, const QString &resu
     Entry *errorReport = new Entry(
       this,
       mUid,
-      QString("Backend `%1'").arg(backend.name()),
-      QString("JSON parse error: `%1'").arg(err.errorString()),
-      "error",
+      backend.name(),
+      QString("Backend data error: `%1'").arg(err.errorString()),
+      ":/icons/backend-error",
       QString(
         "notify-send -t 5000 \"Nozzle - Backend `%1'\" \"JSON parse error: `%2'\" -i \"error"
       ).arg(backend.name(), err.errorString())

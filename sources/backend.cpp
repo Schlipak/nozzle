@@ -19,7 +19,7 @@ Backend::~Backend()
 
 void Backend::start()
 {
-  mWorker = new BackendWorker(mProgram, mParams);
+  mWorker = new BackendWorker(mProgram, mParams, mName);
   //    mWorker->moveToThread(&mWorkerThread);
   //    connect(&mWorkerThread, SIGNAL(finished()), mWorker, SLOT(deleteLater()));
   connect(this, SIGNAL(newDataAvailable(QString)), mWorker, SLOT(newDataInput(QString)));

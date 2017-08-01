@@ -1,10 +1,10 @@
 #include "backendworker.hh"
 
-BackendWorker::BackendWorker(const QString &program, const QStringList &params)
+BackendWorker::BackendWorker(const QString &program, const QStringList &params, const QString &name) :
+  mProgram(program),
+  mParams(params),
+  mName(name)
 {
-  this->mProgram = program;
-  this->mParams = params;
-
   qDebug() << "[WORKER] Starting" << program << params;
   mProc = new QProcess(NULL);
   connect(mProc, SIGNAL(readyReadStandardOutput()), this, SLOT(newDataOutput()));
@@ -26,6 +26,7 @@ BackendWorker::BackendWorker(const QString &program, const QStringList &params)
 
 BackendWorker::~BackendWorker()
 {
+  disconnect(mProc, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(onStateChanged(QProcess::ProcessState)));
   if (mProc)
   {
     qDebug() << "[Worker] In destructor, state is" << mProc->state();
@@ -57,4 +58,22 @@ void BackendWorker::newDataOutput()
 void BackendWorker::onStateChanged(QProcess::ProcessState newState)
 {
   qDebug() << "[Worker] State changed ->" << newState << "with error" << mProc->errorString();
+  if (newState == QProcess::NotRunning)
+  {
+    QSettings settings;
+    QTimer::singleShot(
+      settings.value("style/animation-duration", 400).toInt() + 400,
+      this,
+      SLOT(emitBackendCrash())
+    );
+  }
+}
+
+void BackendWorker::emitBackendCrash()
+{
+  emit resultReady(
+    QString(
+      "{\"results\":[{\"name\":\"%1\",\"description\":\"Backend stopped working, please check config and environment\",\"icon\":\":icons/backend-crash\"}]}"
+    ).arg(mName)
+  );
 }

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>backend-crash.png</file>
+        <file>backend-error.png</file>
+    </qresource>
+</RCC>

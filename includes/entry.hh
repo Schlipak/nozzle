@@ -37,6 +37,7 @@ public:
   void                    setIconPath(QString const &path);
   void                    setExec(QString const &exec);
   QString const           &getExec() const;
+  QString const           &getName() const;
   void                    applyBorderRadius();
 
   QUuid const             &uid() const;

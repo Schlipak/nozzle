@@ -1,11 +1,12 @@
 #include "backend.hh"
 
-Backend::Backend(const QString &exec, const QString params) :
+Backend::Backend(const QString &exec, const QStringList params, QString const &name) :
   QObject(NULL),
   mUid(QUuid::createUuid()),
   mWorker(Q_NULLPTR),
   mProgram(exec),
-  mParams(params)
+  mParams(params),
+  mName(name)
 {
   start();
 }
@@ -36,11 +37,6 @@ void Backend::updateSearchQuery(const QString &query)
 const QUuid &Backend::uid() const
 {
   return mUid;
-}
-
-void Backend::setName(const QString &name)
-{
-  mName = name;
 }
 
 const QString &Backend::name() const

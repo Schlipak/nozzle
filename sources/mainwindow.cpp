@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
   setupUi();
 
   QSettings settings;
+  QString   paramsDelimiter = settings.value("meta/params-delimiter", " ").toString();
 
   settings.beginGroup("backends");
   int backendCount = settings.beginReadArray("script");
@@ -27,8 +28,7 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
     QString params = settings.value("params", "none.py").toString();
     QString name = settings.value("name", "(unknown)").toString();
 
-    Backend *backend = new Backend(program, params);
-    backend->setName(name);
+    Backend *backend = new Backend(program, params.split(paramsDelimiter), name);
     connect(backend, SIGNAL(newResultsAvailable(Backend const &, QString)), this, SLOT(onNewBackendResults(Backend const &, QString)));
     mbackends.append(backend);
   }
@@ -98,10 +98,12 @@ void MainWindow::setupUi()
     QString(
       "QLineEdit#searchInput {"
         "background: transparent;"
+        "selection-background-color: %1;"
         "border: none;"
-        "color: %1;"
+        "color: %2;"
       "}"
     ).arg(
+      settings.value("style/selection-background-color", "#454545").toString(),
       settings.value("style/text-color", "rgb(243, 243, 243)").toString()
     )
   );
@@ -297,7 +299,7 @@ void MainWindow::onEntrySelected(QListWidgetItem *item)
   Entry       *entry = static_cast<Entry*>(ui->entryList->itemWidget(item));
   QProcess    proc;
 
-  qDebug() << "Entry selected" << entry->getExec();
+  qDebug() << "Selected entry" << entry->getExec();
   proc.startDetached(entry->getExec());
   close();
 }

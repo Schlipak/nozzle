@@ -1,11 +1,11 @@
 #include "backendworker.hh"
 
-BackendWorker::BackendWorker(const QString &program, const QStringList &params, const QString &name) :
+BackendWorker::BackendWorker(const QString &program, const QStringList &params, QString const &name) :
   mProgram(program),
   mParams(params),
   mName(name)
 {
-  qDebug() << "[WORKER] Starting" << program << params;
+  qDebug() << QString("[Worker %1] Starting %2 with params").arg(mName, program).toStdString().c_str() << params;
   mProc = new QProcess(NULL);
   connect(mProc, SIGNAL(readyReadStandardOutput()), this, SLOT(newDataOutput()));
   connect(mProc, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(onStateChanged(QProcess::ProcessState)));
@@ -29,7 +29,7 @@ BackendWorker::~BackendWorker()
   disconnect(mProc, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(onStateChanged(QProcess::ProcessState)));
   if (mProc)
   {
-    qDebug() << "[Worker] In destructor, state is" << mProc->state();
+    qDebug() << QString("[Worker %1] In destructor, state is").arg(mName).toStdString().c_str() << mProc->state();
     mProc->terminate();
     mProc->waitForFinished();
     delete mProc;
@@ -40,7 +40,7 @@ void BackendWorker::newDataInput(const QString &input)
 {
   if (mProc && mProc->state() == QProcess::ProcessState::Running)
   {
-    qDebug() << "[Worker] Passing data to backend -> " << input;
+    qDebug() << QString("[Worker %1] Passing data to backend -> %2").arg(mName, input).toStdString().c_str();
     mProc->write((input + QString("\n")).toStdString().c_str());
   }
 }
@@ -49,7 +49,7 @@ void BackendWorker::newDataOutput()
 {
   if (mProc && mProc->state() == QProcess::ProcessState::Running)
   {
-    qDebug() << "[Worker] Backend has emitted data";
+    qDebug() << QString("[Worker %1] Backend has emitted data").arg(mName).toStdString().c_str();
     QString line = mProc->readLine();
     emit resultReady(line);
   }
@@ -57,7 +57,7 @@ void BackendWorker::newDataOutput()
 
 void BackendWorker::onStateChanged(QProcess::ProcessState newState)
 {
-  qDebug() << "[Worker] State changed ->" << newState << "with error" << mProc->errorString();
+  qDebug() << QString("[Worker %1] State changed ->").arg(mName).toStdString().c_str() << newState << "with error" << mProc->errorString();
   if (newState == QProcess::NotRunning)
   {
     QSettings settings;
@@ -71,6 +71,7 @@ void BackendWorker::onStateChanged(QProcess::ProcessState newState)
 
 void BackendWorker::emitBackendCrash()
 {
+  qDebug() << mProc->readAllStandardError();
   emit resultReady(
     QString(
       "{\"results\":[{\"name\":\"%1\",\"description\":\"Backend stopped working, please check config and environment\",\"icon\":\":icons/backend-crash\"}]}"

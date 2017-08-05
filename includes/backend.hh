@@ -15,13 +15,12 @@ class Backend : public QObject
 {
   Q_OBJECT
 public:
-  explicit        Backend(QString const &exec, QString const params);
+  explicit        Backend(QString const &exec, const QStringList params, const QString &name);
   ~Backend();
 
   void            start();
   void            updateSearchQuery(QString const &query);
   QUuid const     &uid() const;
-  void            setName(QString const &name);
   QString const   &name() const;
 
 signals:

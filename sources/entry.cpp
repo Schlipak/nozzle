@@ -73,6 +73,11 @@ const QString &Entry::getExec() const
   return mExec;
 }
 
+const QString &Entry::getName() const
+{
+  return mName;
+}
+
 void Entry::applyBorderRadius()
 {
   setAccessibleName("last-item");

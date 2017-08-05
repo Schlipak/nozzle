@@ -47,6 +47,8 @@ animation-duration=350                     ; Duration of the panel animation (ms
 
 ## Backend scripts
 
+[Official backends repository](https://github.com/Schlipak/nozzle-backends)
+
 Nozzle can run any script (or program for that matter) as a backend. Scripts must behave as a REPL, waiting for user input and outputting the results to STDOUT. Input and output must be done on a single line. The script will get the typed text as an input, and must give properly formatted JSON as an output. Backend scripts must terminate when the input is EOF (aka. Ctrl-D)
 
 Example of output

@@ -58,7 +58,7 @@ Nozzle can run any script (or program for that matter) as a backend. Scripts mus
 Example of output
 
 ```json
-{"backend":"myBackendName","version":"1.0.0","priority":2,"loading":false,"results":[{"name":"My Entry Name","exec":"some-command --with params","icon":"myEntryIcon","description":"The description of My Entry Name"}]}
+{"backend":"myBackendName","version":"1.0.0","priority":2,"loading":false,"results":[{"name":"My Entry Name","exec":"some-command --with params","icon":"myEntryIcon","description":"The description of my entry"}]}
 ```
 
 Typically, if you copy the output and run it in JavaScript's `JSON.parse` method (after escaping quotes) and it works, it's all good.

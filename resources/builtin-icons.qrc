@@ -2,5 +2,6 @@
     <qresource prefix="/icons">
         <file>backend-crash.png</file>
         <file>backend-error.png</file>
+        <file>loading.gif</file>
     </qresource>
 </RCC>

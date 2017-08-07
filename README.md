@@ -54,7 +54,7 @@ Nozzle can run any script (or program for that matter) as a backend. Scripts mus
 Example of output
 
 ```json
-{"backend":"myBackendName","version":"1.0.0","priority":2,"results":[{"name":"My Entry Name","exec":"some-command --with params","icon":"myEntryIcon","description":"The description of My Entry Name"}]}
+{"backend":"myBackendName","version":"1.0.0","priority":2,"loading":false,"results":[{"name":"My Entry Name","exec":"some-command --with params","icon":"myEntryIcon","description":"The description of My Entry Name"}]}
 ```
 
 Typically, if you copy the output and run it in JavaScript's `JSON.parse` method (after escaping quotes) and it works, it's all good.
@@ -64,6 +64,7 @@ Typically, if you copy the output and run it in JavaScript's `JSON.parse` method
 - [ ] `backend`: Name or ID identifying the backend script
 - [ ] `version`: Version number, can be used to further identify the script
 - [ ] `priority`: Integer > 0. Determines how high in the list the results of the script will be displayed. This is useful for scripts that output very specific data, that should be shown before general data (eg. results of a math expression before a more generic applications list)
+- [x] `loading`: Indicates that the backend is loading some data or doing some heavy processing work. Data in `results` is still displayed while loading. Defaults to `false`, so any new message sent by the backend that does not include `"loading":true` will stop the loading animation in the panel. (unless another backend happens to be loading at the same time)
 - [x] `results`: A JSON array of the query results (see below)
 
 

@@ -192,6 +192,11 @@
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QListWidget#entryList {
+	background: transparent;
+}</string>
+         </property>
         </widget>
        </item>
       </layout>

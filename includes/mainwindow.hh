@@ -18,6 +18,7 @@
 #include <QUuid>
 #include <QLabel>
 #include <QMutex>
+#include <QMovie>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -58,6 +59,10 @@ private:
   Backend                     *mBackend;
 
   QList<Backend *>            mbackends;
+
+  QLabel                      *mLoadingLabel;
+  QMovie                      *mLoadingMovie;
+  QList<const Backend *>      mLoadingBackends;
 
   bool                        mClosed;
   unsigned int                mCount;

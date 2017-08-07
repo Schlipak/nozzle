@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent, const QApplication &app) :
   ui(new Ui::MainWindow),
   app(app),
   mUid(QUuid::createUuid()),
+  mLoadingLabel(Q_NULLPTR),
+  mLoadingMovie(Q_NULLPTR),
   mClosed(false),
   mCount(0)
 {
@@ -50,6 +52,8 @@ MainWindow::~MainWindow()
   foreach (auto backend, mbackends) {
     delete backend;
   }
+  delete mLoadingLabel;
+  delete mLoadingMovie;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -155,6 +159,13 @@ void MainWindow::setupUi()
   connect(mAnimIntroTimer, SIGNAL(timeout()), SLOT(animateOut()));
 
   ui->entryList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+  mLoadingMovie = new QMovie(":icons/loading");
+  mLoadingLabel = new QLabel(this);
+  mLoadingLabel->setGeometry(width() - 50, 22.5f, 25, 25);
+  mLoadingLabel->setMovie(mLoadingMovie);
+  mLoadingLabel->setVisible(false);
+  mLoadingMovie->setScaledSize(mLoadingLabel->size());
 }
 
 void MainWindow::onNewBackendResults(Backend const &backend, const QString &results)
@@ -212,6 +223,22 @@ void MainWindow::onNewBackendResults(Backend const &backend, const QString &resu
 
     finalSize.setWidth(width());
     finalSize.setHeight(70 + 50 * ui->entryList->count());
+
+    if (root["loading"].toBool())
+    {
+      mLoadingBackends << &backend;
+      mLoadingLabel->setVisible(true);
+      mLoadingMovie->start();
+    }
+    else
+    {
+      mLoadingBackends.removeAll(&backend);
+      if (mLoadingBackends.count() == 0)
+      {
+        mLoadingLabel->setVisible(false);
+        mLoadingMovie->stop();
+      }
+    }
   }
 
   if (lastItem) lastItem->applyBorderRadius();

@@ -1,7 +1,7 @@
 # :rocket: Nozzle
 
 <p align="center">
-  <span>Scriptable launcher for Linux</span><br/><br/>
+  <span>A versatile scriptable launcher</span><br/><br/>
   <img src="http://imgur.com/Qm1SZD9.gif" alt="Nozzle">
 </p>
 
